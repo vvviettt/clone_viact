@@ -7,6 +7,8 @@ import { useFormik } from "formik";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import logo from "../../../static/logo.svg";
 import authApi from "../../../api/auth";
+import { useDispatch } from "react-redux";
+import { update } from "../../../app/registerSlice";
 
 //validate schema
 const validationSchema = yup.object({
@@ -41,8 +43,9 @@ const validationSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
-function Register() {
+function Register(props) {
   const [showPass, setShowPass] = React.useState(false);
+  const dispatch = useDispatch();
   injectStyle();
   //formik config
   const formik = useFormik({
@@ -59,14 +62,17 @@ function Register() {
 
     onSubmit: async (values) => {
       const result = await authApi.register(values);
+
       if (result.error) {
         toast.error(result.message, { autoClose: 1500 });
+      } else {
+        dispatch(update());
       }
     },
   });
 
   return (
-    <div className="flex w-[1000px] phone:w-[100%] overflow-hidden phone:flex-col">
+    <div className="flex w-[1000px] phone:w-[100%] overflow-hidden phone:flex-col tablet:w-[100%] tablet:flex-col">
       <div className="max-W-[50%] basis-1/2 phone:basis-full">
         <div className="flex items-center justify-center w-full">
           <img className="phone:w-[200px]" src={logo} alt="" />
@@ -76,7 +82,7 @@ function Register() {
             Monitoring
           </p>
         </div>
-        <p className="uppercase text-center text-[16px] phone:mt-[10px]">
+        <p className="uppercase text-center text-[16px] phone:mt-[10px] tablet:mt-10">
           CREATE NEW ACCOUNT
         </p>
         <p className="text-orange text-center text-[20px] font-bold">
@@ -101,7 +107,7 @@ function Register() {
 
       <form
         onSubmit={formik.handleSubmit}
-        className="max-w-[50%] phone:max-w-full basis-1/2 phone:basis-full p-5 phone:py-0 border-l border-[#d5d7dc] phone:border-none"
+        className="max-w-[50%] phone:max-w-full tablet:max-w-full basis-1/2 phone:basis-full tablet:basis-full p-5 phone:py-0 border-l border-[#d5d7dc] phone:border-none"
       >
         <TextField
           fullWidth

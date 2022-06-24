@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         auth: "#0b454f",
         orange: "#FF6A3D",
+        bgSuccess: "rgba(116 ,120, 127, 0.4)",
       },
     },
     screens: {

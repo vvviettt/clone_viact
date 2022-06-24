@@ -7,6 +7,8 @@
   ![image](https://user-images.githubusercontent.com/97574971/175485185-09da44be-3319-492b-b7b1-5a3d240658ad.png)
 2.Node Mailer
   In folder backend/.evn config database:
+  ![image](https://user-images.githubusercontent.com/97574971/175487483-9ec364bb-6d64-453f-aea1-47e3762c62f0.png)
+
   Make sure your google account is turned on 2-Step Vertification 
   ![image](https://user-images.githubusercontent.com/97574971/175485933-1cd07083-063b-44d1-af8d-2f4a1afe23ea.png)
   and this password is app password (don't your password account)

@@ -15,7 +15,7 @@
   ![image](https://user-images.githubusercontent.com/97574971/175486674-07c7bddb-9e0f-411a-8d4f-e4a90070c30e.png)
 3. Run backend
   with command : npm start
-## STEP 3:Run frondend 
+## STEP 3:Run frondent 
   with command npm start
     
 

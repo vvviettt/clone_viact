@@ -4,6 +4,7 @@ import pool from "../model/connection.js";
 import Chance from "chance";
 import jwt from "jsonwebtoken";
 import mailer from "../mail/index.js";
+import "dotenv/config";
 
 //Joi validate
 const schemas = {
@@ -36,7 +37,7 @@ const schemas = {
 //Controller
 const authController = {
   //Login handle
-  login: (req, res) => {
+  login: async (req, res) => {
     const validate = schemas.login.validate(req.body);
     if (validate.error) {
       return res.status(500).json({ error: true, message: "Invalid data" });
@@ -45,7 +46,7 @@ const authController = {
     pool.getConnection(function (err, connection) {
       connection.query(
         `SELECT first_name , last_name , email, password FROM user WHERE username="${key}" OR email="${key}"`,
-        (error, results, fields) => {
+        async (error, results, fields) => {
           connection.release();
           if (error) {
             return res
@@ -59,17 +60,25 @@ const authController = {
             });
           }
           const hash = results[0].password;
-          bcrypt.compare(password, hash, function (err, result) {
-            if (err)
-              return res.status(401).json({
-                error: true,
-                message: "Email or password incorrect",
-              });
-          });
+          const checkPassword = await bcrypt.compare(password, hash);
+          if (!checkPassword) {
+            return res.status(401).json({
+              error: true,
+              message: "Password incorrect",
+            });
+          }
+          const token = jwt.sign(
+            { email: results[0].email },
+            process.env.SECRET_KEY,
+            {
+              expiresIn: "30d",
+            }
+          );
           return res.status(200).json({
             success: true,
             name: results[0].first_name + " " + results[0].last_name,
             email: results[0].email,
+            token: token,
           });
         }
       );
@@ -121,6 +130,9 @@ const authController = {
   forgotPassword: (req, res) => {
     const validate = schemas.forgotPassword.validate(req.body);
     if (validate.error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
       return res.status(401).json({ error: { message: "Invalid data" } });
     }
 

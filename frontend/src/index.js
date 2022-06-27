@@ -4,13 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Account from "./Components/pages/Account";
-import Login from "./Components/core/Login";
-import Register from "./Components/core/Register";
+import Account from "./pages/Authentication";
+import Login from "./Components/ui/Login";
+import Register from "./Components/ui/Register";
 import { Provider } from "react-redux";
-import { store } from "./app/store";
-import Home from "./Components/pages/Home";
-import ForgotPassword from "./Components/core/ForgotPassword/ForgotPassword";
+import { store } from "./redux/store";
+import Home from "./pages/Home";
+import ForgotPassword from "./Components/ui/ForgotPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
